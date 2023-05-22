@@ -36,6 +36,7 @@ Route::prefix('/user')->middleware('auth','verified')->group(function(){
     Route::get('/', [Usercontroller:: class, 'index'])->name('dashboard');
     Route::get('/product',[Usercontroller::class,'product'])->name('product');
     Route::get('/cart',[Usercontroller::class,'cart'])->name('cart');
+    Route::get('/userorder',[Usercontroller::class,'userorder'])->name('userorder');
 
 });
 
