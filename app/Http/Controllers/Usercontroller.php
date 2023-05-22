@@ -15,4 +15,8 @@ class Usercontroller extends Controller
     public function product(){
         return view ('product');
     }
+
+    public function cart(){
+        return view ('cart');
+    }
 }

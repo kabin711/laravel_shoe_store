@@ -23,7 +23,8 @@ Route::get('/', function () {
 
 Route::prefix('/admin')->middleware('auth','verified','isAdmin')->group(function(){
     Route::get('/', [Admincontroller:: class, 'index'])->name('admindashboard');
-    Route::get('/addproduct', [Admincontroller:: class, 'addproduct']);
+    Route::get('/addproduct', [Admincontroller:: class, 'addproduct'])->name('addproduct');
+    Route::get('/userdetails', [Admincontroller:: class, 'userdetails'])->name('userdetails');
 
     
     
@@ -34,7 +35,7 @@ Route::prefix('/admin')->middleware('auth','verified','isAdmin')->group(function
 Route::prefix('/user')->middleware('auth','verified')->group(function(){
     Route::get('/', [Usercontroller:: class, 'index'])->name('dashboard');
     Route::get('/product',[Usercontroller::class,'product'])->name('product');
-
+    Route::get('/cart',[Usercontroller::class,'cart'])->name('cart');
 
 });
 
@@ -42,10 +43,6 @@ Route::prefix('/user')->middleware('auth','verified')->group(function(){
 
 
 
-
-Route::get('/cart', function () {
-    return view('cart');
-})->middleware(['auth', 'verified'])->name('cart');
 
 
 
