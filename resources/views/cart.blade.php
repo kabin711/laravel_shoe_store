@@ -4,7 +4,6 @@
             {{ __('Cart') }}
         </h2>
     </x-slot>
-    @foreach ($cart as $cart)
 
     <!DOCTYPE html>
     <html lang="en">
@@ -48,6 +47,11 @@
           <h3 class="fw-normal mb-0 text-black">Add to Cart</h3>
           
         </div>
+        @php
+       $total=0;
+    @endphp
+   
+        @foreach ($cart as $cart)
 
         <div   class="d-flex card rounded-3 mb-4">
           <div class="card-body p-4">
@@ -55,7 +59,7 @@
               <div class="col-md-2 col-lg-2 col-xl-2">
             
                
-                  <img src="https://th.bing.com/th/id/R.e78d75a1861b1d9862d018d2b0ee3a30?rik=JJjvlrlLJWOLHA&riu=http%3a%2f%2ftheshoebuff.com%2fwp-content%2fuploads%2f2010%2f06%2fRed-Wing-Shoes-Classic-Moc-Toe-Boot-01.jpg&ehk=0pVrxZFU82P2%2fsqoWIOa6bzgcNyjMZYmg%2f4Z%2f61%2bxqo%3d&risl=&pid=ImgRaw&r=0"
+                  <img src="{{$cart->image}}"
                   class="img-fluid rounded-3"  style="  height: 100px; width: 100px; border-radius: 10%;" alt="shoes " >
          
               </div>
@@ -63,45 +67,46 @@
                 <p class="lead fw-normal mb-2">{{$cart->name}} </p>
                 
               </div>
+
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <p class="lead fw-normal mb-2">Quantity:{{$cart->quantity}}</p>
+                
+              </div>
               
               <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">Rs{{$cart->price}}</h5>
+                <h5 class="mb-0">Rs{{$cart->price*$cart->quantity}}</h5>
               </div>
               <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                <a href="{{route('deletecart',$cart->id)}}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
               </div>
             </div>
           </div>
         </div>
-        <ul>
+        
+    
+
+       @php
+   $total= $cart->price*$cart->quantity + $total;
+ @endphp
+
+
+@endforeach   
+
+
+
+
+
+
+
+       
+
+<ul>
           <li class="cart-item">
-            <span class="cart-item-pic">
-              <img src="{{$cart->image}}">
-            </span>
-            {{$cart->name}}
-           
-            <span class="cart-item-desc">{{$cart->description}}</span>
             
-            <a href="{{route('deletecart',$cart->id)}}" class="cart-button">Delete</a>
-            <span class="cart-item">Quantity:{{$cart->quantity}}</span><br>
-            <span class="cart-item-price">Rs.{{$cart->total}} </span>
+            <span class="cart-item-price">Total:Rs.  {{$total}}</span>
           </li>
           
         </ul>
-
-
-
-       
-
-
-
-
-
-
-
-       
-
-
 
 
 
@@ -110,7 +115,7 @@
 
         <div class="card">
           <div class="card-body mt-4 mb-4">
-            <button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+            <button type="button" id="payment-button" class="btn btn-warning btn-block btn-lg">Proceed to Pay with Khalti</button>
           </div>
         </div>
 
@@ -126,11 +131,73 @@
     </div>
 
 
+
+  <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+  <script>
+    var config = {
+        // replace the publicKey with yours
+        "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+        "productIdentity":" {{auth()->user()->id}}",
+        "productName": "{{auth()->user()->name}}",
+        "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+        "paymentPreference": [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+            ],
+        "eventHandler": {
+            onSuccess (payload) {
+                // hit merchant api for initiating verfication
+                console.log(payload);
+                if(payload.idx)
+                {
+                    $.ajaxSetup({
+                        headers:{
+                            'X-CSRF-TOKEN' : '{{csrf_token()}}',
+                        }
+                    });
+
+
+                    $.ajax({
+                         method: 'POST', 
+                         url: "", 
+                         data: payload, 
+                         success: function(response) 
+                         {       
+                                         
+                            console.log(response);
+                             window.location = response.redirectto;
+                     
+                            }
+                        });
+                     }
+
+                
+            },
+            onError (error) {
+                console.log(error);
+            },
+            onClose () {
+                console.log('widget is closing');
+            }
+        }
+    };
+
+    var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({amount: 1000});
+    }
+</script>
+ {{-- khalti end --}}
       
     </body>
     </html>
 
-    @endforeach
+
 
 
 
