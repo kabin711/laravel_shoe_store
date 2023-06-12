@@ -1,9 +1,13 @@
 <?php
 
+
 namespace App\Http\Controllers;
+use App\Models\User;
+
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class Admincontroller extends Controller
 {
@@ -12,10 +16,22 @@ class Admincontroller extends Controller
        
     }
     public function addproduct(){
+       
+            return view ('admin.addproduct');
+
+        
+    }
+
+    public function productstore(Request $request){
+        $data = $request->all();
+        Product::create($data);
         return view ('admin.addproduct');
+
     }
  
     public function userdetails(){
-        return view ('admin.usermanagement');
+        $user = User::all();
+       
+        return view ('admin.usermanagement',compact('user'));
     }
 }

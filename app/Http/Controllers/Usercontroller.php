@@ -15,20 +15,12 @@ class Usercontroller extends Controller
     }
 
     public function product(){
-        $data=Product:: all();
-        return view ('product',compact('data'));
-    }
+      $data=Product:: all();
+        return view ('product',compact('data'));    }
 
-    public function cart(){
-        $cart= Cart::where('userid',auth()->user()->id)->get();
-
-        return view('cart',compact('cart'));
-  
-    
-   
-}
 
     public function userorder(){
         return view ('userorder');
     }
+   
 }

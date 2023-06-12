@@ -30,6 +30,7 @@
         <li><a href={{route('admindashboard')}}>Dashboard</a></li>
             <li><a href={{route('addproduct')}}>Add product</a></li>
             <li><a href={{route('userdetails')}}>User details</a></li>
+            <li><a href={{route('adminlogout')}}>User details</a></li>
 
         </ul>
             
