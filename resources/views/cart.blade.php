@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Cart') }}
         </h2>
     </x-slot>
-
+    @foreach ($cart as $cart)
 
     <!DOCTYPE html>
     <html lang="en">
@@ -45,11 +45,8 @@
       <div class="col-10">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-          <div>
-            <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
-                  class="fas fa-angle-down mt-1"></i></a></p>
-          </div>
+          <h3 class="fw-normal mb-0 text-black">Add to Cart</h3>
+          
         </div>
 
         <div   class="d-flex card rounded-3 mb-4">
@@ -59,16 +56,16 @@
             
                
                   <img src="https://th.bing.com/th/id/R.e78d75a1861b1d9862d018d2b0ee3a30?rik=JJjvlrlLJWOLHA&riu=http%3a%2f%2ftheshoebuff.com%2fwp-content%2fuploads%2f2010%2f06%2fRed-Wing-Shoes-Classic-Moc-Toe-Boot-01.jpg&ehk=0pVrxZFU82P2%2fsqoWIOa6bzgcNyjMZYmg%2f4Z%2f61%2bxqo%3d&risl=&pid=ImgRaw&r=0"
-                  class="img-fluid rounded-3"  style="  height: 100px; width: 100px; border-radius: 10%;" alt="Cotton T-shirt " >
+                  class="img-fluid rounded-3"  style="  height: 100px; width: 100px; border-radius: 10%;" alt="shoes " >
          
               </div>
               <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
+                <p class="lead fw-normal mb-2">{{$cart->name}} </p>
+                
               </div>
               
               <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">Rs.4999.00</h5>
+                <h5 class="mb-0">Rs{{$cart->price}}</h5>
               </div>
               <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                 <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
@@ -76,34 +73,25 @@
             </div>
           </div>
         </div>
-
-
-
-
-        <div   class="d-flex card rounded-3 mb-4">
-          <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
+        <ul>
+          <li class="cart-item">
+            <span class="cart-item-pic">
+              <img src="{{$cart->image}}">
+            </span>
+            {{$cart->name}}
+           
+            <span class="cart-item-desc">{{$cart->description}}</span>
             
-               
-                  <img src="https://th.bing.com/th/id/R.e78d75a1861b1d9862d018d2b0ee3a30?rik=JJjvlrlLJWOLHA&riu=http%3a%2f%2ftheshoebuff.com%2fwp-content%2fuploads%2f2010%2f06%2fRed-Wing-Shoes-Classic-Moc-Toe-Boot-01.jpg&ehk=0pVrxZFU82P2%2fsqoWIOa6bzgcNyjMZYmg%2f4Z%2f61%2bxqo%3d&risl=&pid=ImgRaw&r=0"
-                  class="img-fluid rounded-3"  style="  height: 100px; width: 100px; border-radius: 10%;" alt="Cotton T-shirt " >
-         
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
-              </div>
-             
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">Rs.4999.00</h5>
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
+            <a href="{{route('deletecart',$cart->id)}}" class="cart-button">Delete</a>
+            <span class="cart-item">Quantity:{{$cart->quantity}}</span><br>
+            <span class="cart-item-price">Rs.{{$cart->total}} </span>
+          </li>
+          
+        </ul>
+
+
+
+       
 
 
 
@@ -111,60 +99,13 @@
 
 
 
-        <div   class="d-flex card rounded-3 mb-4">
-          <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
-            
-               
-                  <img src="https://th.bing.com/th/id/R.e78d75a1861b1d9862d018d2b0ee3a30?rik=JJjvlrlLJWOLHA&riu=http%3a%2f%2ftheshoebuff.com%2fwp-content%2fuploads%2f2010%2f06%2fRed-Wing-Shoes-Classic-Moc-Toe-Boot-01.jpg&ehk=0pVrxZFU82P2%2fsqoWIOa6bzgcNyjMZYmg%2f4Z%2f61%2bxqo%3d&risl=&pid=ImgRaw&r=0"
-                  class="img-fluid rounded-3"  style="  height: 100px; width: 100px; border-radius: 10%;" alt="Cotton T-shirt " >
-         
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
-              </div>
-              
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">Rs.4999.00</h5>
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
+       
 
 
 
 
 
-        <div   class="d-flex card rounded-3 mb-4">
-          <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
-            
-               
-                  <img src="https://th.bing.com/th/id/R.e78d75a1861b1d9862d018d2b0ee3a30?rik=JJjvlrlLJWOLHA&riu=http%3a%2f%2ftheshoebuff.com%2fwp-content%2fuploads%2f2010%2f06%2fRed-Wing-Shoes-Classic-Moc-Toe-Boot-01.jpg&ehk=0pVrxZFU82P2%2fsqoWIOa6bzgcNyjMZYmg%2f4Z%2f61%2bxqo%3d&risl=&pid=ImgRaw&r=0"
-                  class="img-fluid rounded-3"  style="  height: 100px; width: 100px; border-radius: 10%;" alt="Cotton T-shirt " >
-         
-              </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
-              </div>
-             
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">Rs.4999.00</h5>
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
+       
      
 
         <div class="card">
@@ -189,7 +130,7 @@
     </body>
     </html>
 
-   
+    @endforeach
 
 
 
